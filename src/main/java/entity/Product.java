@@ -6,7 +6,7 @@ public class Product {
     private String category;
     private String description;
     private double price;
-    private long count;
+    private long quantity;
 
     public Product() {
     }
@@ -17,7 +17,7 @@ public class Product {
         this.category = category;
         this.description = description;
         this.price = price;
-        this.count = count;
+        this.quantity = count;
     }
 
     public long getId() {
@@ -60,11 +60,11 @@ public class Product {
         this.price = price;
     }
 
-    public long getCount() {
-        return count;
+    public long getQuantity() {
+        return quantity;
     }
 
-    public void setCount(long count) {
-        this.count = count;
+    public void setQuantity(long quantity) {
+        this.quantity = quantity;
     }
 }

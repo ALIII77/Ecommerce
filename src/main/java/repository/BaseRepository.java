@@ -1,10 +1,12 @@
 package repository;
 
+import java.sql.SQLException;
+
 public interface BaseRepository<T> {
 
-    void create(T t);
-    T read(T t);
-    T update(T t);
+    T create(T t) throws SQLException;
+    T read(T t) throws SQLException;
+    void update(T t);
     void delete(T t);
 }
 
