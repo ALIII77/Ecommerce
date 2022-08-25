@@ -17,12 +17,15 @@ public class ApplicationConstant {
     public static Scanner input = new Scanner(System.in);
     public static Connection connection = new DBConnection().connect();
     public static CustomerRepository customerRepository = new CustomerRepositoryImpl();
+    //public static CustomerRepository customerRepository2 = new CustomerRepositoryImpl2();  implement haye motefavet
     public static CustomerRepositoryImpl customerRepositoryImpl = new CustomerRepositoryImpl();
+
+
     //firstMene
     private static final String[] FIRST_MENU = {"signUp", "exit"};
-    private static CustomerService customerService = new CustomerServiceImpl();   //error !
+    private static CustomerService customerService = new CustomerServiceImpl();   //ok
     private static UserMenu userMenu = new UserMenu();
-    private static final String[] CUSTOMER_MENU = {"list of product","add order"};
+    public static final String[] CUSTOMER_MENU = {"list of product","add order"};
     private static ProductRepository productRepository= new ProductRepositoryImpl();
     private static CustomerMenu customerMenu = new CustomerMenu();
 
@@ -60,4 +63,5 @@ public class ApplicationConstant {
     public static CustomerMenu getCustomerMenu() {
         return customerMenu;
     }
+
 }

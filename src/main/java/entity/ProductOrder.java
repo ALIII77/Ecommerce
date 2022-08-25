@@ -24,6 +24,9 @@ public class ProductOrder {
         this.count = count;
     }
 
+    public ProductOrder(long productId, long orderId) {
+    }
+
     public long getId() {
         return id;
     }

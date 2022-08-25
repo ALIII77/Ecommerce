@@ -4,6 +4,7 @@ import java.util.List;
 
 public class Customer {
     private long id;
+    private String name;
     private String username;
     private String password;
     private List<Order> orderList;
@@ -50,5 +51,11 @@ public class Customer {
         this.orderList = orderList;
     }
 
+    public String getName() {
+        return name;
+    }
 
+    public void setName(String name) {
+        this.name = name;
+    }
 }

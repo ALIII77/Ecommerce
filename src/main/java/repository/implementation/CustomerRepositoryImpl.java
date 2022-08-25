@@ -11,28 +11,26 @@ import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.sql.Statement;
 
-public class CustomerRepositoryImpl implements CustomerRepository , BaseRepository<Customer> {
-
-
+public class CustomerRepositoryImpl implements CustomerRepository {
 
 
     @Override
     public Customer findCustomerById(long id) throws SQLException {
         Customer foundCustomer = new Customer();
-        String sqlQuery= """
+        String sqlQuery = """
                 SELECT * 
                 FROM customer
                 WHERE id = ?
                 """;
         PreparedStatement ps = ApplicationConstant.getConnection().prepareStatement(sqlQuery);
-        ps.setLong(1,id);
-            ResultSet rs = ps.executeQuery();
-            if (rs.next()) {
-                foundCustomer.setId(rs.getLong(1));
-                foundCustomer.setUsername(rs.getString(2));
-                foundCustomer.setPassword(rs.getString(3));
-            }
-            return foundCustomer;
+        ps.setLong(1, id);
+        ResultSet rs = ps.executeQuery();
+        if (rs.next()) {
+            foundCustomer.setId(rs.getLong(1));
+            foundCustomer.setUsername(rs.getString(2));
+            foundCustomer.setPassword(rs.getString(3));
+        }
+        return foundCustomer;
 
     }
 
@@ -47,7 +45,7 @@ public class CustomerRepositoryImpl implements CustomerRepository , BaseReposito
         if (rs.next()) {
             // System.out.println(username + " ALREADY EXISTS");
             return true;
-        }else {
+        } else {
             //System.out.println("username added successfully");
 
             return false;
@@ -56,52 +54,88 @@ public class CustomerRepositoryImpl implements CustomerRepository , BaseReposito
 
     }
 
-
-
-
-
-    @Override
-    public Customer create(Customer customer) throws SQLException {
-        if (findCustomerByUsername(customer.getUsername()))
-        {
-            System.out.println("username exists");
-            return null;
+    public Customer findCustomerByUsername2(String username) throws SQLException {
+        Customer resutlCustomer = new Customer();
+        String sqlQuery = """
+                select * from customer where username = ?
+                """;
+        PreparedStatement stm = ApplicationConstant.getConnection().prepareStatement(sqlQuery);
+        stm.setString(1, username);
+        ResultSet rs = stm.executeQuery();
+        if (rs.next()) {
+            // System.out.println(username + " ALREADY EXISTS");
+            resutlCustomer.setId(rs.getLong("id"));
+            resutlCustomer.setName(rs.getString("name"));
+            resutlCustomer.setUsername(rs.getString("username"));
+            resutlCustomer.setPassword(rs.getString("password"));
+            return resutlCustomer;
         }
-        else
-        {
-            String sql = """
-                        insert  into customer (username,password) values (?,?)
-                         """;
-            PreparedStatement ps = ApplicationConstant.getConnection().prepareStatement(sql, Statement.RETURN_GENERATED_KEYS);
-
-            ps.setString(1, customer.getUsername());
-            ps.setString(2, customer.getPassword());
-
-            ps.executeUpdate();
-            if (ps.getGeneratedKeys().next()) {
-                customer.setId(ps.getGeneratedKeys().getLong(1));
-            }
-            System.out.println("User Created Successfully");
-            return customer;
+        else {
+            System.out.println("username not found");                             //System.out.println("username added successfully");
+            return null;
         }
     }
 
+
     @Override
-    public Customer read(Customer customer) {
+    public void create(Customer customer) {
+        String sql = """
+                insert  into customer (name,username,password) values (?,?,?)
+                 """;
+        try (PreparedStatement ps = ApplicationConstant.getConnection().prepareStatement(sql, Statement.RETURN_GENERATED_KEYS);) {
+            ps.setString(1,customer.getName());
+            ps.setString(2, customer.getUsername());
+            ps.setString(3, customer.getPassword());
+            ps.executeUpdate();
+            ResultSet rs = ps.getGeneratedKeys(); //ok
+            rs.next();
+            customer.setId(rs.getLong(1));
+        } catch (SQLException e) {
+            throw new RuntimeException(e);
+        }
+    }
 
 
+    @Override
+    public Customer read(Long id) {
+        Customer customer=new Customer();
+        Customer resultCustomer = new Customer();
+        String sqlQuery = """
+                SELECT id,name FROM customer
+                WHERE username=? and password = ? 
+                """;
+        try (PreparedStatement ps = ApplicationConstant.getConnection().prepareStatement(sqlQuery);) {
+            ps.setString(1, customer.getUsername());
+            ps.setString(2, customer.getPassword());
+            ResultSet rs = ps.executeQuery();
+            rs.next();
+            resultCustomer.setId(rs.getLong("id"));
+            resultCustomer.setName(rs.getString("name"));
+        } catch (SQLException e) {
+            throw new RuntimeException(e);
+        }
         return null;
     }
 
     @Override
     public void update(Customer customer) {
-
+        throw new RuntimeException();
     }
 
     @Override
     public void delete(Customer customer) {
-
+            throw new RuntimeException();
     }
+
+    public boolean checkExists(String [] userpassword) throws SQLException {
+        if(findCustomerByUsername(userpassword[0])){
+
+        }
+
+        return false;
+    }
+
+
 
 
 }

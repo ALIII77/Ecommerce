@@ -11,29 +11,36 @@ import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.List;
 
-public class ProductRepositoryImpl implements ProductRepository , BaseRepository<Product> {
+public class ProductRepositoryImpl implements ProductRepository {
 
 
     @Override
-    public Product create(Product product) {
-        return null;
+    public void create(Product product) {
+
+
     }
 
     @Override
-    public Product read(Product product) throws SQLException {
+    public Product read(Long id)  {
+        Product product=new Product();
             String sqlQuery= """
                     SELECT * FROM product
                     WHERE  id = ?
                     """;
-            PreparedStatement ps = ApplicationConstant.getConnection().prepareStatement(sqlQuery);
+        try(PreparedStatement ps =ApplicationConstant.getConnection().prepareStatement(sqlQuery)) {
+            ps.setLong(1,id);
             ResultSet rs =ps.executeQuery();
+
             rs.next();
             product.setName(rs.getString(2));
             product.setCategory(rs.getString(3));
             product.setDescription(rs.getString(4));
             product.setPrice(rs.getDouble(5));
             product.setQuantity(rs.getLong(6));
-            return null;
+        } catch (SQLException e) {
+            throw new RuntimeException(e);
+        }
+            return product;
     }
 
     @Override
@@ -50,18 +57,21 @@ public class ProductRepositoryImpl implements ProductRepository , BaseRepository
 
 
     @Override
-    public List<Product> allProduct() throws SQLException {
+    public List<Product> allProduct()  {
         List<Product> resultProductList=new ArrayList<>();
         String sqlQuery = """
                 SELECT * FROM product_table
                 WHERE status= true;
                 """;
-        PreparedStatement ps = ApplicationConstant.getConnection().prepareStatement(sqlQuery);
-        ResultSet rs = ps.executeQuery();
+        try(PreparedStatement ps =ApplicationConstant.getConnection().prepareStatement(sqlQuery)) {
+            ResultSet rs = ps.executeQuery();
             while (rs.next())
             {
                 resultProductList.add(getProduct(rs));
             }
+        } catch (SQLException e) {
+            throw new RuntimeException(e);
+        }
         return allProduct();
     }
 

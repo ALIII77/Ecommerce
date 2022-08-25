@@ -2,10 +2,12 @@ package repository;
 
 import entity.Order;
 
-public interface OrderRepository {
+public interface OrderRepository extends BaseRepository<Order,Long> {
 
 
     Order fingOrderByCustomerId();
+
+
 
 
 }

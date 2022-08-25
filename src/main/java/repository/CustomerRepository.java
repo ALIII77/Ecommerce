@@ -5,7 +5,7 @@ import entity.Order;
 
 import java.sql.SQLException;
 
-public interface CustomerRepository {
+public interface CustomerRepository extends BaseRepository<Customer,Long> {
 
 
 

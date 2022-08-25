@@ -4,7 +4,7 @@ import java.util.List;
 
 public class Order {
     private long id;
-    private String orderStatus;
+    private boolean orderStatus; //okye  ba zabane eshare daram sohbat mikonam
     private List<Product> products;
     private double totalPrice;
     private long customer_id;
@@ -12,7 +12,7 @@ public class Order {
     public Order() {
     }
 
-    public Order(long id, String orderStatus, List<Product> products, double totalPrice, long customer_id) {
+    public Order(long id, boolean orderStatus, List<Product> products, double totalPrice, long customer_id) {
         this.id = id;
         this.orderStatus = orderStatus;
         this.products = products;
@@ -32,11 +32,11 @@ public class Order {
         this.id = id;
     }
 
-    public String getOrderStatus() {
+    public boolean isOrderStatus() {
         return orderStatus;
     }
 
-    public void setOrderStatus(String orderStatus) {
+    public void setOrderStatus(boolean orderStatus) {
         this.orderStatus = orderStatus;
     }
 
