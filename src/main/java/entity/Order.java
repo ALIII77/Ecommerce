@@ -20,7 +20,7 @@ public class Order {
         this.customer_id = customer_id;
     }
 
-    public Order(long id , String orderStatus, double totalPrice, long customer_id){
+    public Order(long id, String orderStatus, double totalPrice, long customer_id) {
 
     }
 

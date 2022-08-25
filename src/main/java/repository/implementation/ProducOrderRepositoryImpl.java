@@ -12,37 +12,36 @@ import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.List;
 
-    public class ProducOrderRepositoryImpl implements ProductOrderRepository  {
+public class ProducOrderRepositoryImpl implements ProductOrderRepository {
 
     @Override
     public void create(ProductOrder productOrder) throws SQLException {
-        String sqlQuery= """
+        String sqlQuery = """
                 INSERT INTO product_order (order_id,product_id,count,price)
                 VALUES (?,?,?,?)
-                
+                                
                 """;
-        PreparedStatement ps =ApplicationConstant.getConnection().prepareStatement(sqlQuery);
-        ps.setLong(1,productOrder.getOrderId());
-        ps.setLong(2,productOrder.getProductId());
-        ps.setLong(3,productOrder.getCount());
-        ps.setDouble(1,productOrder.getPrice());
-        int check=ps.executeUpdate();
-        if(check==0)
-        {
-           throw  new RuntimeException("Unsuccess add product to order!!");
+        PreparedStatement ps = ApplicationConstant.getConnection().prepareStatement(sqlQuery);
+        ps.setLong(1, productOrder.getOrderId());
+        ps.setLong(2, productOrder.getProductId());
+        ps.setLong(3, productOrder.getCount());
+        ps.setDouble(1, productOrder.getPrice());
+        int check = ps.executeUpdate();
+        if (check == 0) {
+            throw new RuntimeException("Unsuccess add product to order!!");
         }
 
     }
 
     @Override
-    public ProductOrder read(Long id)  {
+    public ProductOrder read(Long id) {
         ProductOrder resultProductOrder = new ProductOrder();
-        String sqlQuery= """
+        String sqlQuery = """
                 SELECT * FROM  product_order
                 """;
 
-        try (PreparedStatement ps =ApplicationConstant.getConnection().prepareStatement(sqlQuery);){
-            ResultSet rs =  ps.executeQuery();
+        try (PreparedStatement ps = ApplicationConstant.getConnection().prepareStatement(sqlQuery);) {
+            ResultSet rs = ps.executeQuery();
             resultProductOrder.setOrderId(rs.getLong("order_id"));
             resultProductOrder.setProductId(rs.getLong("product_id"));
             resultProductOrder.setCount(rs.getLong("count"));
@@ -63,15 +62,14 @@ import java.util.List;
                 WHERE id=?
                 """;
         PreparedStatement ps = ApplicationConstant.getConnection().prepareStatement(sqlQuery);
-        ps.setLong(1,productOrder.getOrderId());
-        ps.setLong(2,productOrder.getProductId());
-        ps.setLong(3,productOrder.getCount());
-        ps.setDouble(4,productOrder.getPrice());
-        ps.setLong(5,productOrder.getId());
+        ps.setLong(1, productOrder.getOrderId());
+        ps.setLong(2, productOrder.getProductId());
+        ps.setLong(3, productOrder.getCount());
+        ps.setDouble(4, productOrder.getPrice());
+        ps.setLong(5, productOrder.getId());
 
-        int check =ps.executeUpdate();
-        if(check==0)
-        {
+        int check = ps.executeUpdate();
+        if (check == 0) {
             throw new RuntimeException("Unsuccess Update!!");
         }
         System.out.println("Order  Updated");
@@ -79,37 +77,36 @@ import java.util.List;
     }
 
     @Override
-    public void delete(ProductOrder productOrder)  {
+    public void delete(ProductOrder productOrder) {
         String sqlQuery = """
                 DELETE FROM product_order
                 WHERE id = ? 
                 """;
 
-        try (PreparedStatement ps =ApplicationConstant.getConnection().prepareStatement(sqlQuery);){
-            ps.setLong(1,productOrder.getId());
+        try (PreparedStatement ps = ApplicationConstant.getConnection().prepareStatement(sqlQuery);) {
+            ps.setLong(1, productOrder.getId());
         } catch (SQLException e) {
             throw new RuntimeException("unsuccess delete ");
         }
     }
+
     @Override
-    public void deleteAll(long id)
-    {
+    public void deleteAll(long id) {
         String sqlQuery = """ 
                 DELETE FROM product_order
                 WHERE order_id=? and order_status=true
                 """;
-        try(PreparedStatement ps = ApplicationConstant.getConnection().prepareStatement(sqlQuery)) {
-            ps.setLong(1,id);
+        try (PreparedStatement ps = ApplicationConstant.getConnection().prepareStatement(sqlQuery)) {
+            ps.setLong(1, id);
         } catch (SQLException e) {
             throw new RuntimeException(e);
         }
     }
 
 
-
     @Override
     public List<ProductOrder> readAllProductOrder(long orderId) throws SQLException {
-        List<ProductOrder>resultProductOrder   =new ArrayList<>();
+        List<ProductOrder> resultProductOrder = new ArrayList<>();
 
 
         String sql = """
@@ -121,7 +118,7 @@ import java.util.List;
         PreparedStatement ps = ApplicationConstant.getConnection().prepareStatement(sql);
         ResultSet rs = ps.executeQuery();
 
-        while(rs.next()){
+        while (rs.next()) {
             ProductOrder productOrder = new ProductOrder(rs.getLong("po.id"),
                     rs.getLong("order_id"),
                     rs.getLong("product_id"),
@@ -140,6 +137,4 @@ import java.util.List;
     }
 
 
-
-
-    }
+}

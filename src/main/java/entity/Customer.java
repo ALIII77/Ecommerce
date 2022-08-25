@@ -11,6 +11,11 @@ public class Customer {
 
     public Customer() {
     }
+    public Customer(String username , String password)
+    {
+        this.username=username;
+        this.password=password;
+    }
 
     public Customer(long id, String username, String password, List<Order> orderList) {
         this.id = id;

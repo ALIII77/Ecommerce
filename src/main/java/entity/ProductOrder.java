@@ -13,7 +13,7 @@ public class ProductOrder {
     public ProductOrder() {
     }
 
-    public ProductOrder(long id, long orderId, long productId, String name, String category,String description, double price, long count) {
+    public ProductOrder(long id, long orderId, long productId, String name, String category, String description, double price, long count) {
         this.id = id;
         this.orderId = orderId;
         this.productId = productId;

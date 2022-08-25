@@ -69,8 +69,7 @@ public class CustomerRepositoryImpl implements CustomerRepository {
             resutlCustomer.setUsername(rs.getString("username"));
             resutlCustomer.setPassword(rs.getString("password"));
             return resutlCustomer;
-        }
-        else {
+        } else {
             System.out.println("username not found");                             //System.out.println("username added successfully");
             return null;
         }
@@ -83,7 +82,7 @@ public class CustomerRepositoryImpl implements CustomerRepository {
                 insert  into customer (name,username,password) values (?,?,?)
                  """;
         try (PreparedStatement ps = ApplicationConstant.getConnection().prepareStatement(sql, Statement.RETURN_GENERATED_KEYS);) {
-            ps.setString(1,customer.getName());
+            ps.setString(1, customer.getName());
             ps.setString(2, customer.getUsername());
             ps.setString(3, customer.getPassword());
             ps.executeUpdate();
@@ -97,9 +96,7 @@ public class CustomerRepositoryImpl implements CustomerRepository {
 
 
     @Override
-    public Customer read(Long id) {
-        Customer customer=new Customer();
-        Customer resultCustomer = new Customer();
+    public Customer read(Customer customer) {
         String sqlQuery = """
                 SELECT id,name FROM customer
                 WHERE username=? and password = ? 
@@ -109,12 +106,12 @@ public class CustomerRepositoryImpl implements CustomerRepository {
             ps.setString(2, customer.getPassword());
             ResultSet rs = ps.executeQuery();
             rs.next();
-            resultCustomer.setId(rs.getLong("id"));
-            resultCustomer.setName(rs.getString("name"));
+            customer.setId(rs.getLong("id"));
+            customer.setName(rs.getString("name"));
         } catch (SQLException e) {
-            throw new RuntimeException(e);
+            throw new RuntimeException("user not exists!!!");
         }
-        return null;
+        return customer;
     }
 
     @Override
@@ -124,18 +121,16 @@ public class CustomerRepositoryImpl implements CustomerRepository {
 
     @Override
     public void delete(Customer customer) {
-            throw new RuntimeException();
+        throw new RuntimeException();
     }
 
-    public boolean checkExists(String [] userpassword) throws SQLException {
-        if(findCustomerByUsername(userpassword[0])){
-
+    public boolean checkExists(String[] userpassword) throws SQLException {
+        if (findCustomerByUsername(userpassword[0])) {
+                //rea
         }
 
         return false;
     }
-
-
 
 
 }

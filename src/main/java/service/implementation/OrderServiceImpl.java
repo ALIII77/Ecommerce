@@ -9,7 +9,7 @@ import service.OrderService;
 import java.sql.SQLException;
 
 public class OrderServiceImpl implements OrderService {
-    OrderRepository orderRepository = new OrderRepositoryImpl() ;
+    OrderRepository orderRepository = new OrderRepositoryImpl();
 
     @Override
     public void setConfirm(Order order) {

@@ -5,11 +5,11 @@ import service.ProductOrderService;
 
 public class ProductOrderServiceImpl implements ProductOrderService {
 
-    ProductServiceImpl productService=new ProductServiceImpl();
+    ProductServiceImpl productService = new ProductServiceImpl();
 
     @Override
     public void addProduct(long productId, long orderId) {
-        ProductOrder productOrder=new ProductOrder( productId, orderId);
+        ProductOrder productOrder = new ProductOrder(productId, orderId);
 
 
     }

@@ -13,7 +13,7 @@ public class DBConnection {
     private Connection connection;
 
 
-    public Connection connect()  {
+    public Connection connect() {
 
 
         try {

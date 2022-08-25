@@ -21,15 +21,15 @@ public class ProductRepositoryImpl implements ProductRepository {
     }
 
     @Override
-    public Product read(Long id)  {
-        Product product=new Product();
-            String sqlQuery= """
-                    SELECT * FROM product
-                    WHERE  id = ?
-                    """;
-        try(PreparedStatement ps =ApplicationConstant.getConnection().prepareStatement(sqlQuery)) {
-            ps.setLong(1,id);
-            ResultSet rs =ps.executeQuery();
+    public Product read(Long id) {
+        Product product = new Product();
+        String sqlQuery = """
+                SELECT * FROM product
+                WHERE  id = ?
+                """;
+        try (PreparedStatement ps = ApplicationConstant.getConnection().prepareStatement(sqlQuery)) {
+            ps.setLong(1, id);
+            ResultSet rs = ps.executeQuery();
 
             rs.next();
             product.setName(rs.getString(2));
@@ -40,7 +40,7 @@ public class ProductRepositoryImpl implements ProductRepository {
         } catch (SQLException e) {
             throw new RuntimeException(e);
         }
-            return product;
+        return product;
     }
 
     @Override
@@ -54,28 +54,25 @@ public class ProductRepositoryImpl implements ProductRepository {
     }
 
 
-
-
     @Override
-    public List<Product> allProduct()  {
-        List<Product> resultProductList=new ArrayList<>();
+    public List<Product> allProduct() {
+        List<Product> resultProductList = new ArrayList<>();
         String sqlQuery = """
-                SELECT * FROM product_table
-                WHERE status= true;
+                SELECT * FROM product
+                
                 """;
-        try(PreparedStatement ps =ApplicationConstant.getConnection().prepareStatement(sqlQuery)) {
+        try (PreparedStatement ps = ApplicationConstant.getConnection().prepareStatement(sqlQuery)) {
             ResultSet rs = ps.executeQuery();
-            while (rs.next())
-            {
+            while (rs.next()) {
                 resultProductList.add(getProduct(rs));
             }
         } catch (SQLException e) {
             throw new RuntimeException(e);
         }
-        return allProduct();
+        return resultProductList;
     }
 
-    private Product getProduct(ResultSet rs ) throws SQLException {
+    private Product getProduct(ResultSet rs) throws SQLException {
         return new Product(rs.getLong(1),
                 rs.getString(2),
                 rs.getString(3),

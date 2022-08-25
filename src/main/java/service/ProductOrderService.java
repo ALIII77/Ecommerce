@@ -1,6 +1,6 @@
 package service;
 
 public interface ProductOrderService {
-   void addProduct(long productId, long orderId);
+    void addProduct(long productId, long orderId);
 
 }
